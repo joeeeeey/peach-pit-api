@@ -1,0 +1,43 @@
+'use strict';
+
+const permissions = {
+    add_catalog: ['res_add_catalog', 'pro_add_catalog'],
+    update_catalog: ['res_update_catalog', 'pro_update_catalog'],
+    remove_catalog: ['res_remove_catalog', 'pro_remove_catalog'],
+    move_catalog: ['res_move_catalog', 'pro_move_catalog'],
+    get_catalogs: [],
+    get_contributors: [],
+    get_tags: [],
+    has_tag_name: [],
+    has_resource_title: [],
+    add_resource: ['res_add_resource'],
+    update_resource: ['res_update_resource', 'pro_update_resource'],
+    remove_resource: ['res_remove_resource', 'pro_remove_resource'],
+    get_resource: [],
+    get_resources: [],
+    switch_resource_catalog: ['res_move_resource', 'pro_move_resource', 'res_up_resource', 'pro_down_resource'],
+    update_resource_downloads: [],
+    like_resource: [],
+    upload_file: [],
+    get_all_logger: ['get_all_logger'],
+    add_role: ['add_role'],
+    update_role: ['update_role'],
+    remove_role: ['remove_role'],
+    get_all_role: [],
+    get_role: [],
+    get_users_by_role: [],
+    cancel_auth: ['cancel_authorise'],
+    has_role_name: [],
+    get_all_permissions: [],
+    has_users_bind_by_role: [],
+    get_all_user: [],
+    operate_user: ['operate_user'],
+    assign_roles: ['assign_roles'],
+    get_roles_by_user: [],
+    get_permissions_by_user: [],
+    get_permission: [],
+    isLive: [],
+    get_key: []
+};
+
+module.exports = permissions;
