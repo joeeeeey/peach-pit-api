@@ -2,9 +2,9 @@
 
 const { Controller } = require('egg');
 // const moment = require('moment');
-const { success, failure } = require('../utils/apiResponse');
-const { PARAMETER_ERROR } = require('../exception/exceptionCode');
-const { generalFailure } = require('../utils/tools');
+const { success, failure } = require('../../utils/apiResponse');
+const { PARAMETER_ERROR } = require('../../exception/exceptionCode');
+const { generalFailure } = require('../../utils/tools');
 
 class BaseController extends Controller {
   success(data) {

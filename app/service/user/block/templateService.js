@@ -2,14 +2,14 @@
 
 const {Service} = require('egg');
 
-class UserService extends Service {
+class TemplateService extends Service {
     /**
      * 新增日志
-     * @param data
+     * @param none
      * @returns {Number}
      */
-    async test(data={}) {
-        console.log("here is service")
+    async getAllTemplates(params={}) {
+        console.log("here is getAllTemplates")
         const {app} = this;
         try {
             const bs = await app.mysql.get('bairong_scores', {id: 3});
@@ -22,4 +22,4 @@ class UserService extends Service {
 
 }
 
-module.exports = UserService;
+module.exports = TemplateService;

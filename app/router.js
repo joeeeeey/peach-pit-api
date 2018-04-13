@@ -5,11 +5,13 @@
  */
 
 module.exports = app => {
-    app.get('/isLive', '/peach_pit_space_api/isLive', app.controller.baseController.isLive);
+    app.get('/isLive', '/peach_pit_space_api/isLive', app.controller.user.baseController.isLive);
     // app.get('/getKey', '/ems_api/get_key', app.controller.baseController.getKey);
-    // UED资产池管理模块-目录相关
-    require('./router/userRouter')(app);
-    require('./router/blockRouter')(app);
-    // require('./router/siteRouter')(app);
-    // UED资产池管理模块-贡献者相关
+    // 用户路由
+    require('./router/user/userRouter')(app);
+    require('./router/user/templateRouter')(app);
+    require('./router/user/siteRouter')(app);
+    // admin 路由
+    require('./router/admin/adminRouter')(app);
+    require('./router/admin/templateRouter')(app);
 };
