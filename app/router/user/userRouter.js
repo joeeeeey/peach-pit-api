@@ -7,4 +7,18 @@ module.exports = app => {
         '/user/login',
         app.controller.user.userController.login
     );
+
+    app.post(
+        '/userRegister',
+        '/user/register',
+        app.controller.user.userController.register
+    );
+
+    // app.post(
+    //     '/userRegister',
+    //     '/api/user/register',
+    //     app.controller.user.userController.register
+    // );
+
+
 };

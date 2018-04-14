@@ -2,7 +2,7 @@
 const jwt = require('jsonwebtoken');
 
 
-function encode(data){
+function jwtEncode(data){
   const token = jwt.sign({
     data: data
   }, 'secret', { expiresIn: 60 * 60 });
@@ -10,9 +10,9 @@ function encode(data){
 }
 
 
-function decode(token){
+function jwtDecode(token){
   try {
-    var decoded = jwt.verify(token, 'wrong-secret');
+    var decoded = jwt.verify(token, 'secret');
     return {code: 0, decoded: decoded}
   } catch(err) {
     return {code: 1, err: err}
@@ -20,6 +20,6 @@ function decode(token){
 }
 
 module.exports = {
-  encode,
-  decode,
+  jwtEncode,
+  jwtDecode,
 };

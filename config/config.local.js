@@ -15,4 +15,5 @@ module.exports = {
     }
   },
   middleware: ['catchError'],
+  jwt_secret: "XInJiZhengBAWanDEFEIQI041418"
 };
