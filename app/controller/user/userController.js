@@ -2,77 +2,89 @@
 // 处理注册 登录 获取信息等逻辑
 'use strict';
 const Controller = require('./baseController');
-const {emailReg, cnPhoneReg} = require('../../utils/regPattern');
-const {jwtEncode, jwtDecode} = require('../../utils/jwt');
+const { emailReg, cnPhoneReg } = require('../../utils/regPattern');
+const { jwtEncode, jwtDecode } = require('../../utils/jwt');
+const { sha256 } = require('../../utils/sha256')
 
-
-const { PARAMETER_ERROR } = require('../../exception/exceptionCode');
+const { PARAMETER_ERROR, NOT_EXIST_USER, USER_INCORRECT_PASSWORD } = require('../../exception/exceptionCode');
 class UserController extends Controller {
+  validatePassword(pasInData, pasInDb) {
+    return this.encrtyPassword(pasInData) === pasInDb
+  }
+
+  encrtyPassword(password) {
+    return sha256(password + this.app.config.app_key)
+  }
+
+
   async login() {
     const { ctx } = this;
-    // const result = await ctx.service.admin.block.templateService.addTemplate();
-    // this.success(result);
-    // const paramRule = {
-    //   name: { type: 'string' },
-    //   remark: { type: 'string', required: false, allowEmpty: true },
-    //   permissions: { type: 'array' }
-    // };
-    // if (!this.validate(paramRule)) return;
-    // const param = ctx.request.body;
-  }  
-
-
-  async register(){
-    const { ctx } = this;
-    const {params} = ctx.request.body;
-    console.log(params)
+    const { params } = ctx.request.body;
 
     const paramRule = {
-      login: { type: 'string', required: true },
+      login: { type: 'string', required: true, allowEmpty: false },
+      password: { type: 'string', required: true, allowEmpty: false },
+    };
+
+    if (!this.validate(paramRule, params)) return;
+
+    const user = await ctx.service.user.userService.findUserByLogin(params.login)
+
+    // 用户是否存在
+    if (user === null) {
+      this.failure(NOT_EXIST_USER);
+      return
+    }
+    // 密码是否正确
+    if (!this.validatePassword(params.password, user.password)) {
+      this.failure(USER_INCORRECT_PASSWORD);
+      return
+    }
+
+    const result = (({ login, id }) => ({ login, id }))(user)
+
+    const jwt = jwtEncode(result)
+    this.setUserCookie(ctx, jwt, result, 10)
+    this.success(result);
+  }
+
+
+  async register() {
+    const { ctx } = this;
+    const { params } = ctx.request.body;
+    console.log(params)
+    const paramRule = {
+      login: { type: 'string', required: true, allowEmpty: false },
       password: { type: 'string', required: true, allowEmpty: false },
       confirm: { type: 'string', required: true, allowEmpty: false },
       nickname: { type: 'string', required: false, allowEmpty: true }
     };
 
     if (!this.validate(paramRule, params)) return;
+    
+    const { login, password, confirm, nickname } = params
 
-    const {login, password, confirm, nickname} = params
-    if(emailReg().test(login)===true){
+    if (emailReg().test(login) === true) {
       params.email = login
-    }else if(cnPhoneReg().test(login)===true){
+    } else if (cnPhoneReg().test(login) === true) {
       params.phone = login
-    }else{
-      return this.failure({PARAMETER_ERROR});
+    } else {
+      this.failure({ PARAMETER_ERROR });
+      return 
     }
 
-    if(password!==confirm){
-       this.failure({PARAMETER_ERROR});
-       return
+    if (password !== confirm) {
+      this.failure({ PARAMETER_ERROR });
+      return
     }
 
+    params.password = this.encrtyPassword(params.password)
     const result = await ctx.service.user.userService.addUser(params)
     const jwt = jwtEncode(result)
-    console.log(jwt)
-    console.log(jwtDecode(jwtEncode(result)))
 
-    ctx.cookies.set(
-      'jwt', 
-      jwt,
-      {
-        domain: 'localhost',  // 写cookie所在的域名
-        maxAge: 24 * 60 * 60 * 1000, // milliseconds from Date.now() for expiry
-        httpOnly: true,  // 是否只用于http请求中获取
-        overwrite: false  // 是否允许重写
-      })
-    
+    this.setUserCookie(ctx, jwt, result)
+
     this.success(result);
-
-    // 参数验证成功后 
-    // create user
-    // 返回 jwt 加密的信息和用户相关信息
-
-
-
   }
 }
 

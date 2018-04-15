@@ -7,10 +7,9 @@ module.exports = options => {
     try {
       await next();
     } catch (e) {
-      console.log(e)
       ctx.logger.error(e);
       ctx.body = generalFailure(e);
-      ctx.status = e.status || 500;
+      ctx.status = e.status || 200;
     }
   };
 };

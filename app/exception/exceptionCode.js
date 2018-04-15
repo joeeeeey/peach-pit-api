@@ -101,6 +101,11 @@ const DEPENDENT_ERROR = {
   msg: '依赖服务错误稍后重试'
 };
 
+const USER_INCORRECT_PASSWORD = {
+  code: 413120826,
+  msg: '密码有误'
+};
+
 
 module.exports = {
   SYSTEM_ERROR,
@@ -127,5 +132,6 @@ module.exports = {
   NOT_ACCESS_PERMISSION,
   MGR_AUTH_ERROR,
   MGR_REALM_ERROR,
-  DEPENDENT_ERROR
+  DEPENDENT_ERROR,
+  USER_INCORRECT_PASSWORD,
 };

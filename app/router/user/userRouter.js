@@ -14,11 +14,4 @@ module.exports = app => {
         app.controller.user.userController.register
     );
 
-    // app.post(
-    //     '/userRegister',
-    //     '/api/user/register',
-    //     app.controller.user.userController.register
-    // );
-
-
 };

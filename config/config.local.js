@@ -15,5 +15,6 @@ module.exports = {
     }
   },
   middleware: ['catchError'],
-  jwt_secret: "XInJiZhengBAWanDEFEIQI041418"
+  jwt_secret: "XInJiZhengBAWanDEFEIQI041418",
+  app_key: "yOnGShaKeyHaoNe3387",
 };

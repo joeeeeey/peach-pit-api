@@ -31,6 +31,29 @@ class BaseController extends Controller {
     return true;
   }
 
+  setUserCookie(ctx, jwt, userProfile, maxAge=86400){
+    //  TODO read domian from config
+    ctx.cookies.set(
+      'jwt',
+      jwt,
+      {
+        domain: 'localhost',  // 写cookie所在的域名
+        maxAge: maxAge * 1000, // milliseconds from Date.now() for expiry
+        httpOnly: true,  // 是否只用于http请求中获取
+        overwrite: false  // 是否允许重写
+      })
+
+    ctx.cookies.set(
+      'taohe_user',
+      JSON.stringify(userProfile),
+      {
+        domain: 'localhost',  // 写cookie所在的域名
+        maxAge: maxAge * 1000, // milliseconds from Date.now() for expiry
+        httpOnly: false,  // 是否只用于http请求中获取
+        overwrite: false  // 是否允许重写
+      })    
+  }
+
   async isLive() {
     const { app, ctx } = this;
     ctx.body = 'ok ' + app.env;
