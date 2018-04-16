@@ -22,7 +22,7 @@ class UserService extends Service {
       };
       const result = await app.mysql.insert('users', user);
       
-      return  {id: result.insertId, login: user.login}
+      return  {id: result.insertId, login: user.login, nickname: user.nickname}
     } catch (e) {
       throw e;
     }
@@ -31,36 +31,14 @@ class UserService extends Service {
   async findUserByLogin(login) {
     const { app } = this;
     try {
-      let sqlStr = "select id, login, password from users where login = ? limit 1"
+      let sqlStr = "select id, login, password, nickname from users where login = ? limit 1"
       const users = await this.app.mysql.query(sqlStr, [login]);
       let user = users[0]
-      return  user ? (({ login, id, password }) => ({ login, id, password}))(user) : null;
+      return  user ? (({ login, id, password, nickname }) => ({ login, id, password, nickname}))(user) : null;
     } catch (e) {
       throw e;
     }
   }
-
-
-  async Login(data) {
-    console.log("user Service login")
-    const { app } = this;
-    try {
-      // const user = {
-      //   login: data.login,
-      // };
-
-
-      let sqlStr = "select id, login from users where login = ?"
-      const user = await this.app.mysql.query(sqlStr, [data.login]);
-            
-      // const user = await app.mysql.get('users', {id: 21});
-      console.log(user)
-      return  (({ login, id }) => ({ login, id}))(user);
-    } catch (e) {
-      throw e;
-    }
-  }
-
 
 }
 

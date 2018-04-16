@@ -2,17 +2,17 @@
 const jwt = require('jsonwebtoken');
 
 
-function jwtEncode(data){
+function jwtEncode(data, secret){
   const token = jwt.sign({
     data: data
-  }, 'secret', { expiresIn: 60 * 60 });
+  }, secret, { expiresIn: 60 * 60 });
   return token;
 }
 
 
 function jwtDecode(token){
   try {
-    var decoded = jwt.verify(token, 'secret');
+    var decoded = jwt.verify(token, secret);
     return {code: 0, decoded: decoded}
   } catch(err) {
     return {code: 1, err: err}

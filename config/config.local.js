@@ -17,4 +17,5 @@ module.exports = {
   middleware: ['catchError'],
   jwt_secret: "XInJiZhengBAWanDEFEIQI041418",
   app_key: "yOnGShaKeyHaoNe3387",
+  domian: 'localhost',
 };

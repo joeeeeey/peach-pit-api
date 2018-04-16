@@ -5,8 +5,9 @@ const Controller = require('./baseController');
 const { emailReg, cnPhoneReg } = require('../../utils/regPattern');
 const { jwtEncode, jwtDecode } = require('../../utils/jwt');
 const { sha256 } = require('../../utils/sha256')
-
+const Exception = require('../../exception/exception');
 const { PARAMETER_ERROR, NOT_EXIST_USER, USER_INCORRECT_PASSWORD } = require('../../exception/exceptionCode');
+
 class UserController extends Controller {
   validatePassword(pasInData, pasInDb) {
     return this.encrtyPassword(pasInData) === pasInDb
@@ -15,7 +16,6 @@ class UserController extends Controller {
   encrtyPassword(password) {
     return sha256(password + this.app.config.app_key)
   }
-
 
   async login() {
     const { ctx } = this;
@@ -29,22 +29,19 @@ class UserController extends Controller {
     if (!this.validate(paramRule, params)) return;
 
     const user = await ctx.service.user.userService.findUserByLogin(params.login)
-
     // 用户是否存在
     if (user === null) {
-      this.failure(NOT_EXIST_USER);
-      return
+      throw new Exception(NOT_EXIST_USER);
     }
     // 密码是否正确
     if (!this.validatePassword(params.password, user.password)) {
-      this.failure(USER_INCORRECT_PASSWORD);
-      return
+      throw new Exception(USER_INCORRECT_PASSWORD);
     }
 
-    const result = (({ login, id }) => ({ login, id }))(user)
+    const result = (({ login, id, nickname }) => ({ login, id, nickname }))(user)
 
-    const jwt = jwtEncode(result)
-    this.setUserCookie(ctx, jwt, result, 10)
+    const jwt = jwtEncode(result, this.getJwtSecret())
+    this.setUserCookie(ctx, jwt, result)
     this.success(result);
   }
 
@@ -52,7 +49,6 @@ class UserController extends Controller {
   async register() {
     const { ctx } = this;
     const { params } = ctx.request.body;
-    console.log(params)
     const paramRule = {
       login: { type: 'string', required: true, allowEmpty: false },
       password: { type: 'string', required: true, allowEmpty: false },
@@ -61,7 +57,7 @@ class UserController extends Controller {
     };
 
     if (!this.validate(paramRule, params)) return;
-    
+
     const { login, password, confirm, nickname } = params
 
     if (emailReg().test(login) === true) {
@@ -70,7 +66,7 @@ class UserController extends Controller {
       params.phone = login
     } else {
       this.failure({ PARAMETER_ERROR });
-      return 
+      return
     }
 
     if (password !== confirm) {
@@ -78,9 +74,10 @@ class UserController extends Controller {
       return
     }
 
+    params.nickname = params.nickname || params.login
     params.password = this.encrtyPassword(params.password)
     const result = await ctx.service.user.userService.addUser(params)
-    const jwt = jwtEncode(result)
+    const jwt = jwtEncode(result, this.getJwtSecret())
 
     this.setUserCookie(ctx, jwt, result)
 

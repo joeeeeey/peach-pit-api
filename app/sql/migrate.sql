@@ -12,8 +12,9 @@ CREATE TABLE `administrators`(
   `nickname` varchar(255) CHARACTER SET utf8 COMMENT '昵称',
   `login` varchar(255) CHARACTER SET utf8 COMMENT '登录名(唯一)，看申请用了手机号还是邮箱',
   `password` varchar(255) CHARACTER SET utf8 COMMENT '密码',
+  `secret_key` varchar(255) CHARACTER SET utf8 COMMENT '秘钥',
   `created_at` datetime NOT NULL COMMENT '创建时间',
-  `updated_at` datetime NOT NULL COMMENT '更新时间',
+  `updated_at` datetime COMMENT '更新时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_administrators_on_login` (`login`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -28,7 +29,7 @@ CREATE TABLE `users`(
   `login` varchar(255) CHARACTER SET utf8 COMMENT '登录名(唯一)，看申请用了手机号还是邮箱',
   `password` varchar(255) CHARACTER SET utf8 COMMENT '密码',
   `created_at` datetime NOT NULL COMMENT '创建时间',
-  `updated_at` datetime NOT NULL COMMENT '更新时间',
+  `updated_at` datetime COMMENT '更新时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_users_on_login` (`login`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -44,7 +45,7 @@ CREATE TABLE `templates` (
   `thumbnail_url` varchar(255) CHARACTER SET utf8 COMMENT '缩略图地址',
   `data` mediumtext CHARACTER SET utf8 NOT NULL COMMENT 'dom tree 数据',
   `created_at` datetime NOT NULL COMMENT '创建时间',
-  `updated_at` datetime NOT NULL COMMENT '更新时间',
+  `updated_at` datetime COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -57,7 +58,7 @@ CREATE TABLE `layouts` (
   `thumbnail_url` varchar(255) CHARACTER SET utf8 COMMENT '缩略图地址',
   `data` mediumtext CHARACTER SET utf8 NOT NULL COMMENT 'dom tree 数据',
   `created_at` datetime NOT NULL COMMENT '创建时间',
-  `updated_at` datetime NOT NULL COMMENT '更新时间',
+  `updated_at` datetime COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -70,6 +71,6 @@ CREATE TABLE `sites` (
   `block_id` int(11) NOT NULL COMMENT '关联板块 id',
   `data` mediumtext CHARACTER SET utf8 NOT NULL COMMENT 'dom tree 数据',
   `created_at` datetime NOT NULL COMMENT '创建时间',
-  `updated_at` datetime NOT NULL COMMENT '更新时间',
+  `updated_at` datetime COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

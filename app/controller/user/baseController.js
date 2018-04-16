@@ -7,6 +7,10 @@ const { PARAMETER_ERROR } = require('../../exception/exceptionCode');
 const { generalFailure } = require('../../utils/tools');
 
 class BaseController extends Controller {
+  getJwtSecret(){
+    return this.app.config.jwt_secret
+  }
+
   success(data) {
     this.ctx.body = success(data);
   }
@@ -37,7 +41,7 @@ class BaseController extends Controller {
       'jwt',
       jwt,
       {
-        domain: 'localhost',  // 写cookie所在的域名
+        domain: this.app.config.domain,  // 写cookie所在的域名
         maxAge: maxAge * 1000, // milliseconds from Date.now() for expiry
         httpOnly: true,  // 是否只用于http请求中获取
         overwrite: false  // 是否允许重写
@@ -45,9 +49,9 @@ class BaseController extends Controller {
 
     ctx.cookies.set(
       'taohe_user',
-      JSON.stringify(userProfile),
+      new Buffer(JSON.stringify(userProfile)).toString('base64'),
       {
-        domain: 'localhost',  // 写cookie所在的域名
+        domain: this.app.config.domain,  // 写cookie所在的域名
         maxAge: maxAge * 1000, // milliseconds from Date.now() for expiry
         httpOnly: false,  // 是否只用于http请求中获取
         overwrite: false  // 是否允许重写
