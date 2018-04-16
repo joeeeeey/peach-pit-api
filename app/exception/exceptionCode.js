@@ -106,6 +106,10 @@ const USER_INCORRECT_PASSWORD = {
   msg: '密码有误'
 };
 
+const NO_AUTHORITY = {
+  code: 413120827,
+  msg: '尚无权限'
+};
 
 module.exports = {
   SYSTEM_ERROR,
@@ -134,4 +138,5 @@ module.exports = {
   MGR_REALM_ERROR,
   DEPENDENT_ERROR,
   USER_INCORRECT_PASSWORD,
+  NO_AUTHORITY,
 };

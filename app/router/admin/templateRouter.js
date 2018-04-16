@@ -1,12 +1,13 @@
 'use strict';
 
 module.exports = app => {
-    // 获取板块中的所有模板
-    app.post(
-        '/addTemplate',
+    const adminAuthentication = app.middleware.adminAuthentication();
+    // 新增模板
+    app.router.post(
         '/admin/add_template',
+        adminAuthentication,
         app.controller.admin.block.templateController.addTemplate
-    );
+    );          
 };
 
 

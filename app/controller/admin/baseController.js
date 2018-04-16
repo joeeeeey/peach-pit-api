@@ -32,6 +32,10 @@ class BaseController extends Controller {
   jwtEncode(data){
     return jwtEncode(data, this.getJwtSecret())
   }
+
+  jwtDecode(token){
+    return jwtDecode(token, this.getJwtSecret())
+  }
   
   getJwtSecret(){
     return this.app.config.jwt_secret

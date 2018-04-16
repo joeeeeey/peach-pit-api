@@ -5,8 +5,7 @@ class TemplateController extends Controller {
   async addTemplate() {
     const { ctx } = this;
     const { params } = ctx.request.body;
-    console.log(ctx.cookies.get('jwt'))
-    
+ 
     const paramRule = {
       name: { type: 'string', required: true, allowEmpty: false },
       data: { type: 'string', required: true, allowEmpty: false },

@@ -14,4 +14,6 @@ module.exports = app => {
     // admin 路由
     require('./router/admin/adminRouter')(app);
     require('./router/admin/templateRouter')(app);
+    require('./router/admin/layoutRouter')(app);
+    
 };
