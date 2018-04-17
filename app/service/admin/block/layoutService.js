@@ -24,17 +24,34 @@ class LayoutService extends Service {
     }
   }
 
+  async updateLayout(data) {
+    const { app } = this;
+    try {
+      data.updated_at = app.mysql.literals.now
+      const result = await app.mysql.update('layouts', data);
+      const updateSuccess = result.affectedRows === 1;
+      return { updateSuccess: updateSuccess } 
+    } catch (e) {
+      throw e;
+    }
+  }
+
   async getAllLayouts(param) {
     const { app } = this;
     try {
-      const { limit, currentPage} = param
+      const { limit, currentPage, column} = param
       const results = await this.app.mysql.select('layouts', { // 搜索 post 表
-        columns: ['id', 'name', 'thumbnail_url', 'created_at'], // 要查询的表字段
+        columns: column, // 要查询的表字段
         orders: [['created_at','desc'], ['id','desc']], // 排序方式
         limit: limit, // 返回数据量
         offset: limit*(currentPage -1), // 数据偏移量
       });     
-      return results
+      const sqlStr = "SELECT COUNT(*) FROM layouts"
+
+      const countResult = await this.app.mysql.query(sqlStr);
+      const total = countResult[0]['COUNT(*)']
+
+      return {records: results, total:total}
     } catch (e) {
       throw e;
     }

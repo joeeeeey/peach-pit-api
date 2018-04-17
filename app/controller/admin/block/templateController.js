@@ -16,6 +16,20 @@ class TemplateController extends Controller {
     this.success(result);
   }  
 
+  async updateTemplate() {
+    const { ctx } = this;
+    const { params } = ctx.request.body;
+ 
+    const paramRule = {
+      name: { type: 'string', required: false, allowEmpty: true },
+      data: { type: 'string', required: false, allowEmpty: true },
+    };
+    
+    if (!this.validate(paramRule, params)) return;    
+    const result = await ctx.service.admin.block.templateService.updateTemplate(params);
+    this.success(result);
+  }  
+
   async getAllTemplates() {
     const { ctx } = this;
     const { limit = 10, currentPage = 1} = ctx.request.query
@@ -23,7 +37,7 @@ class TemplateController extends Controller {
     const result = await ctx.service.admin.block.templateService.getAllTemplates(queryParams);
     this.success(result);
   }  
-
+ 
 }
 
 module.exports = TemplateController;

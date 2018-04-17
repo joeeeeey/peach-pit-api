@@ -24,6 +24,20 @@ class TemplateService extends Service {
       throw e;
     }
   }
+  
+
+  
+  async updateTemplate(data) {
+    const { app } = this;
+    try {
+      data.updated_at = app.mysql.literals.now
+      const result = await app.mysql.update('templates', data);
+      const updateSuccess = result.affectedRows === 1;
+      return { updateSuccess: updateSuccess } 
+    } catch (e) {
+      throw e;
+    }
+  }
 
   async getAllTemplates(param) {
     const { app } = this;
@@ -35,7 +49,13 @@ class TemplateService extends Service {
         limit: limit, // 返回数据量
         offset: limit*(currentPage -1), // 数据偏移量
       });     
-      return results
+      
+      const sqlStr = "SELECT COUNT(*) FROM templates"
+
+      const countResult = await this.app.mysql.query(sqlStr);
+      const total = countResult[0]['COUNT(*)']
+
+      return {records: results, total:total}      
     } catch (e) {
       throw e;
     }

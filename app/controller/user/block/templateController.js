@@ -8,18 +8,13 @@ class TemplateController extends Controller {
     this.success(result);
   }
 
-  // async addTemplate() {
-  //   const { ctx } = this;
-  //   const result = await ctx.service.block.templateService.getAllTemplatesparam();
-  //   this.success(result);
-  //   // const paramRule = {
-  //   //   name: { type: 'string' },
-  //   //   remark: { type: 'string', required: false, allowEmpty: true },
-  //   //   permissions: { type: 'array' }
-  //   // };
-  //   // if (!this.validate(paramRule)) return;
-  //   // const param = ctx.request.body;
-  // }  
+  async getTemplateById() {
+    const { ctx } = this;
+    let { id } = ctx.request.query
+
+    const result = await ctx.service.user.block.templateService.getTemplateById(parseInt(id));
+    this.success(result);
+  }
 }
 
 module.exports = TemplateController;

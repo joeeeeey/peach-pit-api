@@ -9,6 +9,12 @@ module.exports = app => {
     app.controller.admin.block.layoutController.addLayout
   );
 
+  app.router.post(
+    '/admin/update_layout',
+    adminAuthentication,
+    app.controller.admin.block.layoutController.updateLayout
+  );
+
   app.router.get(
     '/admin/get_all_layouts',
     adminAuthentication,

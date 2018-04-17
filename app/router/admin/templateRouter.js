@@ -9,6 +9,12 @@ module.exports = app => {
         app.controller.admin.block.templateController.addTemplate
     );
 
+    app.router.post(
+        '/admin/update_template',
+        adminAuthentication,
+        app.controller.admin.block.templateController.updateTemplate
+    );    
+        
     app.router.get(
         '/admin/get_all_templates',
         adminAuthentication,

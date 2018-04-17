@@ -2,6 +2,10 @@
 
 Api For peach-pit-space
 
+## 路由说明
+默认认为 user 的路由就是公共路由
+
+
 ## QuickStart
 
 <!-- add docs here for user -->

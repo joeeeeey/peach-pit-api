@@ -2,13 +2,13 @@
 
 const { Service } = require('egg');
 
-class TemplateService extends Service {
+class LayoutService extends Service {
   /**
    * 新增日志
    * @param {}
    * @returns {Number}
    */
-  async getAllTemplates(params = {}) {
+  async getAllLayouts(params = {}) {
     const { app } = this;
     try {
     } catch (e) {
@@ -16,15 +16,15 @@ class TemplateService extends Service {
     }
   }
 
-  async getTemplateById(id) {
+  async getLayoutById(id) {
     const { app } = this;
     try {
-      const template = await this.app.mysql.get('templates', { id: id });
-      return template
+      const layout = await this.app.mysql.get('layouts', { id: id });
+      return layout
     } catch (e) {
       throw e;
     }
   }
 }
 
-module.exports = TemplateService;
+module.exports = LayoutService;
