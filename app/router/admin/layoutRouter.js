@@ -8,6 +8,13 @@ module.exports = app => {
     adminAuthentication,
     app.controller.admin.block.layoutController.addLayout
   );
+
+  app.router.get(
+    '/admin/get_all_layouts',
+    adminAuthentication,
+    app.controller.admin.block.layoutController.getAllLayouts
+  );
+
 };
 
 

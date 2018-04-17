@@ -17,6 +17,14 @@ class LayoutController extends Controller {
     
     this.success(result);
   }  
+
+  async getAllLayouts() {
+    const { ctx } = this;
+    const { limit = 10, currentPage = 1} = ctx.request.query
+    const queryParams = {limit: parseInt(limit), currentPage: parseInt(currentPage)}
+    const result = await ctx.service.admin.block.layoutService.getAllLayouts(queryParams);
+    this.success(result);
+  }    
 }
 
 module.exports = LayoutController;

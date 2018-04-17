@@ -7,7 +7,13 @@ module.exports = app => {
         '/admin/add_template',
         adminAuthentication,
         app.controller.admin.block.templateController.addTemplate
-    );          
+    );
+
+    app.router.get(
+        '/admin/get_all_templates',
+        adminAuthentication,
+        app.controller.admin.block.templateController.getAllTemplates
+    );
 };
 
 
