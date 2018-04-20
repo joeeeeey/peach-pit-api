@@ -17,7 +17,7 @@ module.exports = app => {
     require('./router/user/templateRouter')(app);
     require('./router/user/layoutRouter')(app); 
     require('./router/user/siteRouter')(app);
-
+    require('./router/user/upyunRouter')(app);
 
     
 };
