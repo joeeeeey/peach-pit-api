@@ -17,20 +17,16 @@ class UpYunController extends Controller {
 
     const paramRule = {
       role: { type: 'string', require: true, allowEmpty: false },
+      roleId: { type: 'number', require: true, allowEmpty: false },
       fileName: { type: 'string', require: true, allowEmpty: false },
       page: { type: 'string', require: true, allowEmpty: false },
       source: { type: 'string', require: false, allowEmpty: true },
+      sourceId: { type: 'string', require: false, allowEmpty: true },
     };
-
-    // role: role,
-    // roleId: this.context.store.getState()[role].payload.id,
-    // source: source || 'temporary',
-    // sourceId: id || 'layout',
 
     const uniqFileName = utils.md5sum(fileName + (Math.random().toString()))
     let filePath = `/${page}/${role}/${roleId}${source ? ('/' + source) : ''}${sourceId ? ('/' + sourceId) : ''}/${uniqFileName}`
     if (!this.validate(paramRule, params)) return;
-
 
     const secret = this.app.config.upyun.key
     const saveKey = this.app.config.upyun.savePathPrefix + filePath // 文件保存路径
