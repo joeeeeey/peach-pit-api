@@ -20,6 +20,7 @@ module.exports = {
   domian: 'localhost',
   
   upyun: {
+    imgUploadUrl: "http://v0.api.upyun.com/blog-src/",
     bucket: 'blog-src',
     key: 'ZvmSM4XlWxmvJ6th7K9HR2BjXH0=',
     admin: 'admin2', 

@@ -32,6 +32,7 @@ class UpYunController extends Controller {
     const saveKey = this.app.config.upyun.savePathPrefix + filePath // 文件保存路径
     const imgUrl = this.app.config.upyun.urlPrefix + saveKey
     const bucket = this.app.config.upyun.bucket
+    const imgUploadUrl = this.app.config.upyun.imgUploadUrl
     let opts = {
       'save-key': saveKey,
       'bucket': bucket,
@@ -39,7 +40,11 @@ class UpYunController extends Controller {
     }
     let policy = tools.policy(opts)
     let token = utils.md5sum(policy + '&' + secret)
-    this.success({ token: token, policy: policy, imgUrl: imgUrl, saveKey: saveKey });
+    this.success({
+      token: token, policy: policy,
+      imgUrl: imgUrl, saveKey: saveKey,
+      imgUploadUrl: imgUploadUrl,
+    });
   }
 }
 
