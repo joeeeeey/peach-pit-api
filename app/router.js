@@ -19,5 +19,8 @@ module.exports = app => {
     require('./router/user/siteRouter')(app);
     require('./router/user/upyunRouter')(app);
 
+    // 打包
+    // require('./router/user/deployRouter')(app);
+    
     
 };

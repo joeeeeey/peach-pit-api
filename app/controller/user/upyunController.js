@@ -36,7 +36,7 @@ class UpYunController extends Controller {
     let opts = {
       'save-key': saveKey,
       'bucket': bucket,
-      'expiration': Math.round(new Date().getTime() / 1000) + 3600
+      'expiration': Math.round(new Date().getTime() / 1000) + 86400
     }
     let policy = tools.policy(opts)
     let token = utils.md5sum(policy + '&' + secret)

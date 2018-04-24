@@ -111,6 +111,11 @@ const NO_AUTHORITY = {
   msg: '尚无权限'
 };
 
+const DEPLOY_FAILED = {
+  code: 413120828,
+  msg: '部署失败'
+};
+
 module.exports = {
   SYSTEM_ERROR,
   PARAMETER_ERROR,
@@ -139,4 +144,5 @@ module.exports = {
   DEPENDENT_ERROR,
   USER_INCORRECT_PASSWORD,
   NO_AUTHORITY,
+  DEPLOY_FAILED,
 };

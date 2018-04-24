@@ -9,6 +9,7 @@
     "egg-scripts": "^2.5.0",
     "egg-validate": "^1.0.0",
     "jsonwebtoken": "^8.2.1",
+    "shelljs": "^0.8.1",
     "upyun": "^2.0.4"
   },
   "devDependencies": {
