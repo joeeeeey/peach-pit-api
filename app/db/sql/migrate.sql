@@ -41,6 +41,7 @@ DROP TABLE IF EXISTS `templates`;
 CREATE TABLE `templates` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(255) CHARACTER SET utf8 NOT NULL COMMENT '模板名称',
+  `category` varchar(255) CHARACTER SET utf8 DEFAULT '默认' COMMENT '模板类别, 如商业，博客。',
   `active` tinyint(1) DEFAULT '1' COMMENT '是否可用',
   `thumbnail_url` varchar(255) CHARACTER SET utf8 COMMENT '缩略图地址',
   `data` mediumtext CHARACTER SET utf8 NOT NULL COMMENT 'dom tree 数据',
@@ -48,6 +49,13 @@ CREATE TABLE `templates` (
   `updated_at` datetime COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- -- add category
+-- ALTER TABLE templates
+-- ADD COLUMN category varchar(255) CHARACTER SET utf8 DEFAULT '默认' COMMENT '模板类别, 如商业，博客。';
+
+-- ALTER TABLE templates DROP COLUMN category;
+
 
 -- 布局
 DROP TABLE IF EXISTS `layouts`;
@@ -83,6 +91,7 @@ CREATE TABLE `deployments` (
 CREATE INDEX user_id_index ON deployments (user_id) USING BTREE;
 
 -- 网站表
+-- TODO 增加 isDeployed boolean
 DROP TABLE IF EXISTS `sites`;
 CREATE TABLE `sites` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -90,7 +99,7 @@ CREATE TABLE `sites` (
   `name` varchar(255) CHARACTER SET utf8 NOT NULL COMMENT '网站名称',
   `template_id` int(11) COMMENT '关联模板 id, 可以用于统计模板使用次数',
   `deployment_id` int(11) COMMENT '关联部署表 id',
-  `active` tinyint(1) DEFAULT '1' COMMENT '是否开启使用',
+  `active` tinyint(1) DEFAULT '1' COMMENT '是否开启使用,可以用于禁用',
   `data` mediumtext CHARACTER SET utf8 NOT NULL COMMENT 'dom tree 数据',
   `created_at` datetime NOT NULL COMMENT '创建时间',
   `updated_at` datetime COMMENT '更新时间',

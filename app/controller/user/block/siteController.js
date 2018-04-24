@@ -35,9 +35,13 @@ class SiteController extends Controller {
     console.log(params)
     const paramRule = {
       indexFileCode: { type: 'string', required: true, allowEmpty: false },
-      userId: { type: 'number', required: true, allowEmpty: false },
+      // userId: { type: 'number', required: true, allowEmpty: false },
+      // siteId: { type: 'number', required: true, allowEmpty: false },
     };
 
+    // TODO 根据 siteId 得到 user deployment
+    // 已经部署的 site 则取出该 deployment
+    // 
     const { indexFileCode, userId } = params
     if (!this.validate(paramRule, params)) return;
 
@@ -60,10 +64,12 @@ class SiteController extends Controller {
     // 删除容器中的 index 文件
     await shell.cd(`${containerProjectPath}`);
 
-
     await shell.rm(`${containerIndexFileRelativePath}`);
 
     // 重写 index 
+    // !NOTICE
+    // shelljs 中 cat 转义的默认行为与在 macos 中不同, 需多加一个 \ 进行转义
+    // 此处转义前代码在前端生成
     await shell.exec(`cat >> ${containerIndexFileRelativePath} << EOF 
     ${indexFileCode}
   `);

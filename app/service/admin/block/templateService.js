@@ -25,8 +25,6 @@ class TemplateService extends Service {
     }
   }
   
-
-  
   async updateTemplate(data) {
     const { app } = this;
     try {

@@ -11,6 +11,8 @@ module.exports = app => {
     require('./router/admin/adminRouter')(app);
     require('./router/admin/templateRouter')(app);
     require('./router/admin/layoutRouter')(app);
+    require('./router/admin/deploymentRouter')(app);
+
         
     // 用户路由
     require('./router/user/userRouter')(app);

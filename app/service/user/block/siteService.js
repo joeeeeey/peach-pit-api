@@ -8,21 +8,21 @@ class SiteService extends Service {
    * @param {}
    * @returns {Number}
    */
-  async getAllLayouts(user_id) {
+  async getAllSites(user_id) {
     const { app } = this;
     try {
-      const layouts = await this.app.mysql.get('layouts', { user_id: user_id });
-      return layout
+      const sites = await this.app.mysql.get('sites', { user_id: user_id });
+      return site
     } catch (e) {
       throw e;
     }
   }
 
-  async getLayoutById(id) {
+  async getSiteById(id) {
     const { app } = this;
     try {
-      const layout = await this.app.mysql.get('layouts', { id: id });
-      return layout
+      const site = await this.app.mysql.get('sites', { id: id });
+      return site
     } catch (e) {
       throw e;
     }
