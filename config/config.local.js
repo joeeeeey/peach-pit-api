@@ -17,7 +17,10 @@ module.exports = {
   middleware: ['catchError'],
   jwt_secret: "XInJiZhengBAWanDEFEIQI041418",
   app_key: "yOnGShaKeyHaoNe3387",
-  domian: 'localhost',
+  domian: 'localhost', // 主项目部署域名
+  deployment: {
+    internalScopeDomianUseSSL: false // 内部域名使用 https ?
+  },
   // CDN 配置
   upyun: {
     imgUploadUrl: "http://v0.api.upyun.com/blog-src/",

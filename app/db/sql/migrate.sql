@@ -62,13 +62,18 @@ DROP TABLE IF EXISTS `layouts`;
 CREATE TABLE `layouts` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(255) CHARACTER SET utf8 NOT NULL COMMENT '布局名称',
-  `active` tinyint(1) DEFAULT '1' COMMENT '是否开启使用',
+  `is_public` tinyint(1) DEFAULT '1' COMMENT '是否公开，公开后用户可见。Admin 能看到所有',
   `thumbnail_url` varchar(255) CHARACTER SET utf8 COMMENT '缩略图地址',
+  `active` tinyint(1) DEFAULT '1' COMMENT '是否开启使用',
   `data` mediumtext CHARACTER SET utf8 NOT NULL COMMENT 'dom tree 数据',
   `created_at` datetime NOT NULL COMMENT '创建时间',
   `updated_at` datetime COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ALTER TABLE layouts
+-- ADD COLUMN is_public tinyint(1) DEFAULT '1' COMMENT '是否公开，公开后用户可见。Admin 能看到所有。';
+
 
 
 -- 部署表 通过遍历内部域名生成主机 nginx 配置

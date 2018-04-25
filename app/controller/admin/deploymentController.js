@@ -2,7 +2,6 @@
 const Controller = require('./baseController');
 const shell = require('shelljs');
 class DeploymentController extends Controller {
-
   async getNginxConfig() {
     const { ctx } = this;
     const params = { domainScope: 'internal' }

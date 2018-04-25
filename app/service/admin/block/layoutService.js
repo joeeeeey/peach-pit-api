@@ -40,7 +40,8 @@ class LayoutService extends Service {
     const { app } = this;
     try {
       const { limit, currentPage, column} = param
-      const results = await this.app.mysql.select('layouts', { // 搜索 post 表
+      const results = await this.app.mysql.select('layouts', { 
+        where: {active: true},
         columns: column, // 要查询的表字段
         orders: [['created_at','desc'], ['id','desc']], // 排序方式
         limit: limit, // 返回数据量

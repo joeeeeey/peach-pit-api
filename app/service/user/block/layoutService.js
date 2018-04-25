@@ -8,9 +8,11 @@ class LayoutService extends Service {
    * @param {}
    * @returns {Number}
    */
-  async getAllLayouts(params = {}) {
+  async getLayouts(conditions) {
     const { app } = this;
     try {
+      const results = await this.app.mysql.select('layouts', conditions);
+      return { records: results }      
     } catch (e) {
       throw e;
     }

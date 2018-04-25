@@ -8,6 +8,38 @@ class SiteService extends Service {
    * @param {}
    * @returns {Number}
    */
+
+  async addSite(data) {
+    const { app } = this;
+    try {
+      const site = {
+        user_id: data.user_id,
+        name: data.name,
+        template_id: data.template_id,
+        deployment_id: data.deployment_id,
+        data: data.data,
+        created_at: app.mysql.literals.now
+      };
+      const result = await app.mysql.insert('sites', site);
+
+      return { id: result.insertId }
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async updateSite(data) {
+    const { app } = this;
+    try {
+      data.updated_at = app.mysql.literals.now
+      const result = await app.mysql.update('sites', data);
+      const updateSuccess = result.affectedRows === 1;
+      return { updateSuccess: updateSuccess } 
+    } catch (e) {
+      throw e;
+    }
+  }
+
   async getAllSites(user_id) {
     const { app } = this;
     try {

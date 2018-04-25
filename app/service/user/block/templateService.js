@@ -34,11 +34,9 @@ class TemplateService extends Service {
 
   async groupTemplate(params) {
     let { groupKey } = params
-    // groupKey = groupKey + ';select * from users'
-    // console.log(groupKey)
+    // TODO 防止 SQL 注入? 去掉 ';'?
     let sqlStr = `select ${groupKey}, COUNT(*) as number FROM templates group by ${groupKey}`
     const result = await this.app.mysql.query(sqlStr);
-    console.log(result)
     return result 
   }
 

@@ -5,6 +5,9 @@ Api For peach-pit-space
 ## 路由说明
 默认认为 user 的路由就是公共路由
 
+### 获取数据组通用写法
+见 user/layoutController getLayouts 中
+
 
 ## QuickStart
 
