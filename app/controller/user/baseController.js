@@ -8,15 +8,27 @@ const { generalFailure } = require('../../utils/tools');
 const { jwtDecode, jwtEncode } = require('../../utils/jwt');
 
 class BaseController extends Controller {
-  jwtEncode(data){
+  userId() {
+    const { ctx } = this;
+    const jwt = ctx.cookies.get('jwt')
+    if(jwt){
+      const decodeResult = this.jwtDecode(jwt, ctx.app.config.jwt_secret)
+      const userId = decodeResult.decoded.data.id
+      return userId
+    }else{
+      return null
+    }
+  }
+
+  jwtEncode(data) {
     return jwtEncode(data, this.getJwtSecret())
   }
 
-  jwtDecode(token){
+  jwtDecode(token) {
     return jwtDecode(token, this.getJwtSecret())
   }
-  
-  getJwtSecret(){
+
+  getJwtSecret() {
     return this.app.config.jwt_secret
   }
 
@@ -44,7 +56,7 @@ class BaseController extends Controller {
     return true;
   }
 
-  setUserCookie(ctx, jwt, userProfile, maxAge=86400){
+  setUserCookie(ctx, jwt, userProfile, maxAge = 86400) {
     //  TODO read domian from config
     ctx.cookies.set(
       'jwt',
@@ -64,7 +76,7 @@ class BaseController extends Controller {
         maxAge: maxAge * 1000, // milliseconds from Date.now() for expiry
         httpOnly: false,  // 是否只用于http请求中获取
         overwrite: false  // 是否允许重写
-      })    
+      })
   }
 
   async isLive() {

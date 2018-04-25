@@ -34,7 +34,18 @@ class SiteService extends Service {
       data.updated_at = app.mysql.literals.now
       const result = await app.mysql.update('sites', data);
       const updateSuccess = result.affectedRows === 1;
-      return { updateSuccess: updateSuccess } 
+      return { updateSuccess: updateSuccess }
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async deleteSite(data){
+    const { app } = this;
+    try {
+      const result = await this.app.mysql.delete('sites', data);
+      const success = result.affectedRows === 1;
+      return { deleteSuccess: success }
     } catch (e) {
       throw e;
     }
@@ -49,6 +60,18 @@ class SiteService extends Service {
       throw e;
     }
   }
+
+  async getSites(conditions) {
+    const { app } = this;
+    try {
+      const results = await this.app.mysql.select('sites', conditions);
+      return { records: results }
+    } catch (e) {
+      throw e;
+    }
+  }
+  
+
 
   async getSiteById(id) {
     const { app } = this;

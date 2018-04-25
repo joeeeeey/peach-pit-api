@@ -6,22 +6,40 @@ const { DEPLOY_FAILED, PARAMETER_ERROR, NO_AUTHORITY } = require('../../../excep
 const Exception = require('../../../exception/exception');
 
 class SiteController extends Controller {
-  // 获取用户所有 sites
-  // TODO jwt 认证用户
-  async getAllSites() {
-    const { ctx } = this;
-    const { user_id } = ctx.request.query
-    const result = await ctx.service.user.block.siteService.getAllSites(parseInt(user_id));
-    this.success(result);
-  }
 
-  // TODO jwt 认证用户
+  // // TODO jwt 认证用户
   async getSiteById() {
     const { ctx } = this;
     const { id } = ctx.request.query
 
     const result = await ctx.service.user.block.siteService.getSiteById(parseInt(id));
     this.success(result);
+  }
+
+  // 获取用户的网站信息
+  async getUserSitesInfo() {
+    const { ctx } = this;
+    const userId = this.userId()
+
+    let conditions = {
+      limit: 1000,
+      offset: 0,
+      where: { active: true, user_id: userId },
+      orders: [['created_at', 'asc']],
+    }
+    const result = await ctx.service.user.block.siteService.getSites(conditions)
+
+    this.success(result)
+  }
+
+  async deleteSite() {
+    const { ctx } = this;
+    const { params } = ctx.request.body;
+    const { siteId } = params
+
+    const result = await ctx.service.user.block.siteService.deleteSite({ id: siteId })
+
+    this.success(result)
   }
 
   async updateSite() {
@@ -79,7 +97,6 @@ class SiteController extends Controller {
     }
 
     const decodeResult = this.jwtDecode(jwt, ctx.app.config.jwt_secret)
-    // console.log(decodeResult)
 
     if (decodeResult.code !== 0) {
       throw new Exception(NO_AUTHORITY);
@@ -92,11 +109,7 @@ class SiteController extends Controller {
       indexFileCode: { type: 'string', required: true, allowEmpty: false },
     };
 
-    console.log(params)
-
-    // TODO 根据 siteId 得到 user deployment
     // 已经部署的 site 则取出该 deployment
-    // 
     if (!this.validate(paramRule, params)) return;
     const { indexFileCode, siteId } = params
     console.log(siteId)
@@ -118,9 +131,6 @@ class SiteController extends Controller {
     }
     console.log(deployment)
 
-    // return this.success({})
-    // TODO 获取可用的部署地址，端口，二级域名
-    // await ctx.service.user.deploymentService.getAvailableDeployment(parseInt(id));
     // TODO
     // containerProjectPath 应从数据库获取，可用的容器，考虑 docker? 先不急这个问题
     const {
@@ -149,13 +159,8 @@ class SiteController extends Controller {
   `);
 
     // shell.echo("begin build..")
-    // TODO read from deployments
-    // deployment
-    const { domain, port, folder_location } = deployment
-    // const serverName = 'localhost'
-    // const port = '4323'
-    // const nginxDirPath = "/Users/jun/sites/mougerandomzhi"
 
+    const { domain, port, folder_location } = deployment
     const buildResult = await shell.exec('npm run build')
 
     if (buildResult.code === 0) {
