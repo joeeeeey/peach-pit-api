@@ -22,19 +22,19 @@ class LayoutController extends Controller {
     const { ctx } = this;
     const { params } = ctx.request.body;
 
-    const paramRule = {
-      name: { type: 'string', required: false, allowEmpty: true },
-      data: { type: 'string', required: false, allowEmpty: true },
-    };
+    // const paramRule = {
+    //   name: { type: 'string', required: false, allowEmpty: true },
+    //   data: { type: 'string', required: false, allowEmpty: true },
+    // };
 
-    if (!this.validate(paramRule, params)) return;
+    // if (!this.validate(paramRule, params)) return;
     const result = await ctx.service.admin.block.layoutService.updateLayout(params);
     this.success(result);
   }
 
   async getAllLayouts() {
     const { ctx } = this;
-    let defaultColumns = 'id,name,thumbnail_url,data,created_at'
+    let defaultColumns = 'id,name,thumbnail_url,data,created_at,category'
     const { limit = 10, currentPage = 1, column = defaultColumns } = ctx.request.query
 
     const queryParams = {

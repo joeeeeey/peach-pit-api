@@ -112,7 +112,6 @@ class SiteController extends Controller {
     // 已经部署的 site 则取出该 deployment
     if (!this.validate(paramRule, params)) return;
     const { indexFileCode, siteId } = params
-    console.log(siteId)
     const site = await ctx.service.user.block.siteService.getSiteById(siteId);
     const deploymentId = site.deployment_id
     let deployment = null

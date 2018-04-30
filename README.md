@@ -8,6 +8,19 @@ Api For peach-pit-space
 ### 获取数据组通用写法
 见 user/layoutController getLayouts 中
 
+### 关于 CDN 存储位置
+
+通用前缀 /tabhe/{env}/
+
+1. 编辑页面图片的存储位置: 
+    `/editPage/${role}/${roleId}${source ? ('/' + source) : ''}${sourceId ? ('/' + sourceId) : ''}/${uniqFileName}`
+
+2.  管理员上传 template layout 介绍 thumb 的位置: 
+    /basic/layouts/
+    /basic/templates/
+
+3. 公共资源位置: 
+    /public/{category}    
 
 ## QuickStart
 

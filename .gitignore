@@ -13,3 +13,4 @@ run/
 test/
 scripts/
 tmp/
+config/config.prod.js

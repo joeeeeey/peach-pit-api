@@ -62,6 +62,7 @@ DROP TABLE IF EXISTS `layouts`;
 CREATE TABLE `layouts` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(255) CHARACTER SET utf8 NOT NULL COMMENT '布局名称',
+  `category` varchar(255) CHARACTER SET utf8 DEFAULT '默认' COMMENT '模板类别, 如商业，博客。',
   `is_public` tinyint(1) DEFAULT '1' COMMENT '是否公开，公开后用户可见。Admin 能看到所有',
   `thumbnail_url` varchar(255) CHARACTER SET utf8 COMMENT '缩略图地址',
   `active` tinyint(1) DEFAULT '1' COMMENT '是否开启使用',
@@ -73,6 +74,8 @@ CREATE TABLE `layouts` (
 
 -- ALTER TABLE layouts
 -- ADD COLUMN is_public tinyint(1) DEFAULT '1' COMMENT '是否公开，公开后用户可见。Admin 能看到所有。';
+-- ALTER TABLE layouts
+-- ADD COLUMN category varchar(255) CHARACTER SET utf8 DEFAULT '默认' COMMENT '样式类别, 如商业，博客。';
 
 
 

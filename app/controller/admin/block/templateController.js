@@ -19,13 +19,6 @@ class TemplateController extends Controller {
   async updateTemplate() {
     const { ctx } = this;
     const { params } = ctx.request.body;
- 
-    const paramRule = {
-      name: { type: 'string', required: false, allowEmpty: true },
-      data: { type: 'string', required: false, allowEmpty: true },
-    };
-    
-    if (!this.validate(paramRule, params)) return;    
     const result = await ctx.service.admin.block.templateService.updateTemplate(params);
     this.success(result);
   }  

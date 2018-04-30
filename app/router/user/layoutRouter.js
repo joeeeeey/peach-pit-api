@@ -9,9 +9,9 @@ module.exports = app => {
         app.controller.user.block.layoutController.getAllLayouts
     );
 
-    // app.get(
-    //     '/getAllLayouts',
-    //     '/get_layout_by_id',
-    //     app.controller.user.block.layoutController.getLayoutById
-    // );    
+    app.get(
+        '/getAllLayouts',
+        '/get_layout_by_id',
+        app.controller.user.block.layoutController.getLayoutById
+    );    
 };

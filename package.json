@@ -26,7 +26,7 @@
     "node": ">=8.9.0"
   },
   "scripts": {
-    "start": "egg-scripts start --daemon --title=egg-server-peach-pit-space-api",
+    "start": "egg-scripts start  --port=7001 -title=egg-server-peach-pit-space-api --workers=2",
     "stop": "egg-scripts stop --title=egg-server-peach-pit-space-api",
     "dev": "egg-bin dev",
     "debug": "egg-bin debug",
