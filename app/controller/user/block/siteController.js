@@ -2,7 +2,7 @@
 const Controller = require('./blockController');
 
 const shell = require('shelljs');
-const { DEPLOY_FAILED, PARAMETER_ERROR, NO_AUTHORITY } = require('../../../exception/exceptionCode');
+const { UPDATE_DEP_FAILED, DEPLOY_FAILED, PARAMETER_ERROR, NO_AUTHORITY } = require('../../../exception/exceptionCode');
 const Exception = require('../../../exception/exception');
 
 class SiteController extends Controller {
@@ -25,7 +25,7 @@ class SiteController extends Controller {
       limit: 1000,
       offset: 0,
       where: { active: true, user_id: userId },
-      orders: [['created_at', 'asc']],
+      orders: [['created_at', 'desc']],
     }
     const result = await ctx.service.user.block.siteService.getSites(conditions)
 
@@ -33,9 +33,26 @@ class SiteController extends Controller {
   }
 
   async deleteSite() {
+    // TODO 若有 deployment 要释放
     const { ctx } = this;
     const { params } = ctx.request.body;
     const { siteId } = params
+
+    const site = await ctx.service.user.block.siteService.getSiteById(siteId);
+    const deploymentId = site.deployment_id
+    // let deployment = null
+
+    if (deploymentId) {
+      let deployment = await ctx.service.user.deploymentService.getDeploymentById(deploymentId);
+
+      deployment.available = true
+      deployment.user_id = null
+
+      const updateDepResult = await ctx.service.user.deploymentService.updateDeployment(deployment)
+      if (!updateDepResult.updateSuccess) {
+        throw new Exception(UPDATE_DEP_FAILED);
+      }
+    }
 
     const result = await ctx.service.user.block.siteService.deleteSite({ id: siteId })
 
@@ -164,7 +181,13 @@ class SiteController extends Controller {
 
     if (buildResult.code === 0) {
       await shell.mkdir('-p', folder_location)
-      const moveDirResult = await shell.exec(`cp -r  build/ ${folder_location}`)
+      // !! cp -r 指令 macos 与 linux 不同
+      // macos 下 cp -r a/ b 则 b 下不会包含 a 文件夹名
+      // linux 下 需要 cp -r a/* b 才能达到相同功效
+      // this.app.config.env
+      // 此处用 环境判断
+      const stupidCp = this.app.config.env === 'pro' ? '*' : ''
+      const moveDirResult = await shell.exec(`cp -r  build/${stupidCp} ${folder_location}`)
       if (moveDirResult.code === 0) {
         // update deployment and site
         deployment.available = false

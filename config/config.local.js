@@ -37,5 +37,6 @@ module.exports = {
     containerPreviewFileRelativePath: '../components/preview/',
     containerProjectPath: '/Users/jun/ppsapce/pack-container', // 打包项目目录
     containerIndexFileRelativePath: 'src/pages/index.js ', // 打包项目中 index 目录
-  }
+  },
+  env: 'dev'
 };

@@ -116,6 +116,11 @@ const DEPLOY_FAILED = {
   msg: '部署失败'
 };
 
+const UPDATE_DEP_FAILED = {
+  code: 413120829,
+  msg: '更新部署内容出现异常'
+}
+
 module.exports = {
   SYSTEM_ERROR,
   PARAMETER_ERROR,
@@ -145,4 +150,5 @@ module.exports = {
   USER_INCORRECT_PASSWORD,
   NO_AUTHORITY,
   DEPLOY_FAILED,
+  UPDATE_DEP_FAILED,
 };
