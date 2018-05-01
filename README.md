@@ -51,3 +51,24 @@ $ npm stop
 
 
 [egg]: https://eggjs.org
+
+
+## 部署
+
+```bash
+# install nodejs
+# install npm
+curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+
+# install mysql
+https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-16-04
+
+
+mysql -uroot -p root -e "CREATE DATABASE taohe_production DEFAULT CHARSET utf8"
+
+# install nginx 
+# https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-16-04
+
+```

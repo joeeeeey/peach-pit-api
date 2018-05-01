@@ -6,11 +6,12 @@ class DeploymentService extends Service {
   async getDeployments(params) {
     const { app } = this;
     try {
+      const {limit = 5000, offset = 0} = params
       const results = await this.app.mysql.select('deployments', { 
         where: {domain_scope: params.domainScope},
-        orders: [['created_at', 'desc'], ['id', 'desc']], // 排序方式
-        limit: 100000, // 返回数据量
-        offset: 0, // 数据偏移量
+        orders: [['id', 'asc']], // 排序方式
+        limit: limit, // 返回数据量
+        offset: offset, // 数据偏移量
       });
 
       return {records: results}      
