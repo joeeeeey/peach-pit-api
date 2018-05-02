@@ -20,14 +20,22 @@ class SiteController extends Controller {
   async getUserSitesInfo() {
     const { ctx } = this;
     const userId = this.userId()
-
+    // tODO 增加 deployment 信息
     let conditions = {
       limit: 1000,
       offset: 0,
       where: { active: true, user_id: userId },
       orders: [['created_at', 'desc']],
     }
-    const result = await ctx.service.user.block.siteService.getSites(conditions)
+    let result = await ctx.service.user.block.siteService.getSites(conditions)
+    let { records } = result
+    for (let i = 0; i < records.length; i++) {
+      const deploymentId = records[i].deployment_id
+      if (deploymentId) {
+        const deployment = await ctx.service.user.deploymentService.getDeploymentById(deploymentId);
+        records[i].deploymentUrl = deployment.url
+      }
+    }
 
     this.success(result)
   }
