@@ -33,7 +33,7 @@ class SiteController extends Controller {
       const deploymentId = records[i].deployment_id
       if (deploymentId) {
         const deployment = await ctx.service.user.deploymentService.getDeploymentById(deploymentId);
-        records[i].deploymentUrl = deployment.url
+        records[i].deploymentUrl = 'http://'+deployment.url
       }
     }
 
