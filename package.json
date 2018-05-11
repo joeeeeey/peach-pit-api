@@ -4,6 +4,7 @@
   "description": "Api For peach-pit-space",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
     "egg": "^2.2.1",
     "egg-mysql": "^3.0.0",
     "egg-scripts": "^2.5.0",

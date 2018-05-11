@@ -23,6 +23,7 @@ module.exports = {
   },
   // CDN 配置
   upyun: {
+    endpoint: "https://v0.api.upyun.com",
     imgUploadUrl: "https://v0.api.upyun.com/blog-src/",
     bucket: 'blog-src',
     key: 'ZvmSM4XlWxmvJ6th7K9HR2BjXH0=',
