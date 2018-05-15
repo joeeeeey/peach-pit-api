@@ -11,11 +11,22 @@ class BaseController extends Controller {
   userId() {
     const { ctx } = this;
     const jwt = ctx.cookies.get('jwt')
-    if(jwt){
+    if (jwt) {
       const decodeResult = this.jwtDecode(jwt, ctx.app.config.jwt_secret)
       const userId = decodeResult.decoded.data.id
       return userId
-    }else{
+    } else {
+      return null
+    }
+  }
+
+  roleInfo() {
+    const { ctx } = this;
+    const jwt = ctx.cookies.get('jwt')
+    if (jwt) {
+      const decodeResult = this.jwtDecode(jwt, ctx.app.config.jwt_secret)
+      return decodeResult.decoded.data
+    } else {
       return null
     }
   }

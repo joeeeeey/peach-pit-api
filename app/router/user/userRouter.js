@@ -13,5 +13,4 @@ module.exports = app => {
         '/user/register',
         app.controller.user.userController.register
     );
-
 };
