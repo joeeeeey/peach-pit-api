@@ -114,6 +114,7 @@ CREATE TABLE `sites` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
 CREATE INDEX user_id_index ON sites (user_id) USING BTREE;
 CREATE INDEX deployment_id_index ON sites (deployment_id) USING BTREE;
 CREATE INDEX template_id_index ON sites (template_id) USING BTREE;

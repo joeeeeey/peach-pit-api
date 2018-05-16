@@ -5,6 +5,24 @@ const shell = require('shelljs');
 const { UPDATE_DEP_FAILED, DEPLOY_FAILED, PARAMETER_ERROR, NO_AUTHORITY } = require('../../../exception/exceptionCode');
 const Exception = require('../../../exception/exception');
 
+function indexHtmlCode(options = { title: 'MY PAGE' }) {
+  return `<!doctype html>
+  <html lang="en" dir="ltr">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="user-scalable=0, initial-scale=1, minimum-scale=1, width=device-width, height=device-height">
+      <!-- PWA primary color -->
+      <meta name="theme-color" content="#000000">
+      <title>${options.title}</title>
+      <link rel="shortcut icon" href="%PUBLIC_URL%/images/favicon.ico">
+    </head>
+    <body>
+      <div id="root"></div>
+    </body>
+  </html>
+  `
+}
+
 class SiteController extends Controller {
 
   // // TODO jwt 认证用户
@@ -33,7 +51,7 @@ class SiteController extends Controller {
       const deploymentId = records[i].deployment_id
       if (deploymentId) {
         const deployment = await ctx.service.user.deploymentService.getDeploymentById(deploymentId);
-        records[i].deploymentUrl = 'http://'+deployment.url
+        records[i].deploymentUrl = 'http://' + deployment.url
       }
     }
 
@@ -153,13 +171,13 @@ class SiteController extends Controller {
       }
       deployment = await ctx.service.user.deploymentService.getDeployment(conditions)
     }
-    console.log(deployment)
 
     // TODO
     // containerProjectPath 应从数据库获取，可用的容器，考虑 docker? 先不急这个问题
     const {
       containerProjectPath,
-      containerIndexFileRelativePath
+      containerIndexJsFileRelativePath,
+      containerIndexHtmlFileRelativePath,
     } = this.app.config.packing
 
     // const containerBuildFileRelativePath = ''
@@ -169,18 +187,26 @@ class SiteController extends Controller {
     // 2. 执行 npm run build 得到打包完的结果 
     // 3. 执行移动build 到 nginx 指定路径
 
-    // 删除容器中的 index 文件
+    // 删除容器中的 index.js 文件
     await shell.cd(`${containerProjectPath}`);
 
-    await shell.rm(`${containerIndexFileRelativePath}`);
+    await shell.rm(`${containerIndexJsFileRelativePath}`);
 
-    // 重写 index 
+    // 重写 index.js
     // !NOTICE
     // shelljs 中 cat 转义的默认行为与在 macos 中不同, 需多加一个 \ 进行转义
     // 此处转义前代码在前端生成
-    await shell.exec(`cat >> ${containerIndexFileRelativePath} << EOF 
-    ${indexFileCode}
-  `);
+    await shell.exec(`cat >> ${containerIndexJsFileRelativePath} << EOF 
+    ${indexFileCode}`
+    )
+
+    // 删除容器中的 index.html 文件
+    await shell.rm(`${containerIndexHtmlFileRelativePath}`);
+    // 重写 index.html
+    await shell.exec(`cat > ${containerIndexHtmlFileRelativePath} << EOF 
+      ${indexHtmlCode({ title: site.name})}`
+    )
+
 
     // shell.echo("begin build..")
 
