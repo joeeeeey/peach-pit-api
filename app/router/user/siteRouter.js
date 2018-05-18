@@ -16,6 +16,19 @@ module.exports = app => {
     app.controller.user.block.siteController.deploy
   );
 
+  // 测试
+  // app.get(
+  //   '/compress_static_file',
+  //   '/compress_static_file',
+  //   app.controller.user.block.siteController.compressStaticFile
+  // );
+
+   // 压缩静态文件
+  app.post(
+    '/compress_static_file',
+    userAuthentication,
+    app.controller.user.block.siteController.compressStaticFile
+  );
   // 根据模板新建网站
   app.post(
     '/add_site_by_template',

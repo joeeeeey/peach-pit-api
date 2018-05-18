@@ -204,7 +204,7 @@ class SiteController extends Controller {
     await shell.rm(`${containerIndexHtmlFileRelativePath}`);
     // 重写 index.html
     await shell.exec(`cat > ${containerIndexHtmlFileRelativePath} << EOF 
-      ${indexHtmlCode({ title: site.name})}`
+      ${indexHtmlCode({ title: site.name })}`
     )
 
 
@@ -250,5 +250,53 @@ class SiteController extends Controller {
     }
   }
 
+
+  // https://stackoverflow.com/questions/18681595/tar-a-directory-but-dont-store-full-absolute-paths-in-the-archive
+  // tar -czvf /Users/jun/compress_sites/4afda6b9e.tar.gz  -C /Users/jun/sites/4afda6b9e .
+  // 压缩文件
+  // 目前前端以 nginx 发布压缩文件目录的方式提供给前端下载
+  // TODO 回传给前端流文件，前端生成新的文件并下载
+  async compressStaticFile() {
+    const { ctx } = this;
+    const { params } = ctx.request.body;
+
+    const paramRule = {
+      siteId: { type: 'number', required: true, allowEmpty: false },
+    };
+
+    if (!this.validate(paramRule, params)) return;
+    const { siteId } = params
+
+    // const siteId = 38
+    const site = await ctx.service.user.block.siteService.getSiteById(siteId);
+    const deploymentId = site.deployment_id
+
+    if (!deploymentId) { throw new Exception(NO_AUTHORITY) }
+
+    const deployment = await ctx.service.user.deploymentService.getDeploymentById(deploymentId);
+    const staticFileDir = deployment.folder_location
+    const fileName = staticFileDir.split('/').slice(-1)[0] // 取出最后一个值
+
+    const {
+      compressLocation,
+      nginxCompressedFileServerPath,
+    } = this.app.config.compress
+
+    const compressedFileName = `${fileName}.tar.gz`
+
+    // 进行存放压缩文件的目录
+    await shell.cd(`${compressLocation}`);
+    await shell.rm(`${compressedFileName}`);
+
+    const compressResult = await shell.exec(`tar -czvf ${compressedFileName} -C ${staticFileDir} .`)
+
+    if(compressResult.code === 0){
+      this.success({
+        compressedFileName: compressedFileName,
+        compressedFilePath: `${nginxCompressedFileServerPath}/${compressedFileName}`})
+    }else{
+      throw new Exception({code: 30312312, msg: compressResult.stderr})
+    }
+  }
 }
 module.exports = SiteController;

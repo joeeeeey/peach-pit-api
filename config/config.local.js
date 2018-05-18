@@ -40,5 +40,11 @@ module.exports = {
     containerIndexJsFileRelativePath: 'src/pages/index.js ', // 打包项目中 index js 目录
     containerIndexHtmlFileRelativePath: 'public/index.html ', // 打包项目中 index 目录
   },
+  // 压缩文件的选项
+  // TODO 和 deployment 中的 folder_location 结合起来，修改 folder_location 的逻辑?
+  compress: {
+    compressLocation: '/Users/jun/compressed_sites',
+    nginxCompressedFileServerPath: 'http://localhost:7788',
+  },
   env: 'dev'
 };
