@@ -12,17 +12,15 @@ module.exports = app => {
     require('./router/admin/templateRouter')(app);
     require('./router/admin/layoutRouter')(app);
     require('./router/admin/deploymentRouter')(app);
-    require('./router/admin/upyunRouter')(app);
+    require('./router/admin/cdnRouter')(app);
         
     // 用户路由
     require('./router/user/userRouter')(app);
     require('./router/user/templateRouter')(app);
     require('./router/user/layoutRouter')(app); 
     require('./router/user/siteRouter')(app);
-    require('./router/user/upyunRouter')(app);
+    require('./router/user/cdnRouter')(app);
 
     // 打包
     // require('./router/user/deployRouter')(app);
-    
-    
 };

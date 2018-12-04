@@ -1,16 +1,14 @@
-# peach-pit-space-api
-
-Api For peach-pit-space
+## Introdution
+This repo is backend For peach-pit.
 
 ## 路由说明
-默认认为 user 的路由就是公共路由
+默认认 user/ 的路由就是公共路由
 
 ### 获取数据组通用写法
 见 user/layoutController getLayouts 中
 
 ### 关于 CDN 存储位置
-
-通用前缀 /tabhe/{env}/
+通用前缀 /taohe/{env}/
 
 1. 编辑页面图片的存储位置: 
     `/editPage/${role}/${roleId}${source ? ('/' + source) : ''}${sourceId ? ('/' + sourceId) : ''}/${uniqFileName}`
@@ -22,14 +20,23 @@ Api For peach-pit-space
 3. 公共资源位置: 
     /public/{category}    
 
-## QuickStart
+### Setup in Development
 
-<!-- add docs here for user -->
+- Install `mysql`.
+- Create table and import seeds data(By sequel pro or tableplus).
 
-see [egg docs][egg] for more detail.
+```sql
+mysql -uroot -p root -e "CREATE DATABASE taohe_development DEFAULT CHARSET utf8"
+```
 
-### Development
+- Set Config file.
 
+```bash
+cp config/config.default.js config/config.local.js
+# change config.local.js with correct params.
+```
+
+- Install dependencies.
 ```bash
 $ npm i
 $ npm run dev
@@ -65,10 +72,8 @@ sudo apt-get install -y nodejs
 # install mysql
 https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-16-04
 
-
-mysql -uroot -p root -e "CREATE DATABASE taohe_production DEFAULT CHARSET utf8"
-
 # install nginx 
 # https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-16-04
 
 ```
+
