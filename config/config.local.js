@@ -10,7 +10,7 @@ module.exports = {
       host: '127.0.0.1',
       port: '3306',
       user: 'root',
-      password: '',
+      password: 'jj12321',
       database: 'taohe_development'
     }
   },
@@ -22,6 +22,9 @@ module.exports = {
     internalScopeDomianUseSSL: false // 内部域名使用 https ?
   },
   // CDN 配置
+  cnd: {
+    vender: 'upyun' // TODO It should be configurable.
+  },
   upyun: {
     endpoint: "https://v0.api.upyun.com",
     imgUploadUrl: "https://v0.api.upyun.com/blog-src/",
@@ -36,14 +39,14 @@ module.exports = {
   // 打包配置
   packing: {
     containerPreviewFileRelativePath: '../components/preview/',
-    containerProjectPath: '/Users/jun/ppsapce/pack-container', // 打包项目目录
+    containerProjectPath: `${process.env.HOME}/ppsapce/pack-container`, // 打包项目目录
     containerIndexJsFileRelativePath: 'src/pages/index.js ', // 打包项目中 index js 目录
     containerIndexHtmlFileRelativePath: 'public/index.html ', // 打包项目中 index 目录
   },
   // 压缩文件的选项
   // TODO 和 deployment 中的 folder_location 结合起来，修改 folder_location 的逻辑?
   compress: {
-    compressLocation: '/Users/jun/compressed_sites',
+    compressLocation: `${process.env.HOME}/compressed_sites`,
     nginxCompressedFileServerPath: 'http://localhost:7788',
   },
   env: 'dev'

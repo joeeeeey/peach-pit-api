@@ -14,3 +14,4 @@ test/
 scripts/
 tmp/
 config/config.prod.js
+.travis.yml
